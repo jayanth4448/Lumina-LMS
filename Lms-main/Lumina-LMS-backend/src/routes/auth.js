@@ -76,7 +76,8 @@ router.post('/register', async (req, res) => {
     delete safe.password;
     res.json({ token, user: safe });
   } catch (e) {
-    res.status(500).json({ message: 'Registration failed' });
+    console.error('Registration error details:', e);
+    res.status(500).json({ message: 'Registration failed: ' + e.message });
   }
 });
 
