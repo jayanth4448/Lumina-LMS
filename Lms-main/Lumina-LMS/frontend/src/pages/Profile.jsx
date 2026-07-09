@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { EnrollmentsAPI, CertificatesAPI } from '../api/client';
+import { CertificatesAPI } from '../api/client';
 import { CoursesAPI, AssignmentsAPI, AttendanceAPI } from '../api/client';
 
 export default function Profile(){
