@@ -13,6 +13,37 @@ export default function Home() {
     }
   }, [user, nav]);
 
+  // PWA Install / Download State Hooks
+  const [deferredPrompt, setDeferredPrompt] = React.useState(null);
+  const [showInstallBtn, setShowInstallBtn] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBtn(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setShowInstallBtn(false);
+    }
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to install prompt: ${outcome}`);
+    setDeferredPrompt(null);
+    setShowInstallBtn(false);
+  };
+
   useEffect(() => {
     // Create floating bubbles
     const container = document.getElementById('bubbles-container');
@@ -260,6 +291,24 @@ export default function Home() {
             <Link to="/register" className="btn primary" style={{ padding: '16px 32px', fontSize: '1.1rem', borderRadius: '12px' }}>
               Create an Account
             </Link>
+            {showInstallBtn && (
+              <button 
+                onClick={handleInstallClick} 
+                className="btn primary" 
+                style={{ 
+                  padding: '16px 32px', 
+                  fontSize: '1.1rem', 
+                  borderRadius: '12px',
+                  background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                  boxShadow: '0 4px 14px rgba(16, 185, 129, 0.4)',
+                  border: 'none',
+                  color: 'white',
+                  cursor: 'pointer'
+                }}
+              >
+                📥 Download App
+              </button>
+            )}
           </div>
         </div>
 
