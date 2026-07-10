@@ -531,42 +531,6 @@ export default function ModernDashboard() {
 
       </div>
 
-      {/* Recommended Courses Section */}
-      <div className="card" style={{ padding: '24px', textAlign: 'left' }}>
-        <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '900', color: 'var(--text)' }}>📚 Recommended For You</h3>
-        <p style={{ margin: '4px 0 20px 0', color: 'var(--muted)', fontSize: '0.82rem' }}>Expand your career skills catalog</p>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
-          {[
-            { title: 'Python for Data Analysis', instr: 'Dr. Sarah Jenkins', desc: 'Learn Pandas, Numpy, and Matplotlib.', rating: '⭐ 4.9 (1.2k ratings)', icon: '🐍' },
-            { title: 'UI/UX Design Masterclass', instr: 'Marcus Aurelius', desc: 'Design stunning glassmorphism layouts.', rating: '⭐ 4.8 (890 ratings)', icon: '🎨' },
-            { title: 'Introduction to Cloud Architectures', instr: 'AWS Certified Staff', desc: 'Master ECS, S3, and serverless compute.', rating: '⭐ 4.7 (540 ratings)', icon: '☁️' }
-          ].map((course, idx) => (
-            <div key={idx} style={{
-              borderRadius: '12px',
-              border: '1px solid var(--border)',
-              padding: '16px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              background: 'var(--bg)',
-              minHeight: '180px'
-            }}>
-              <div>
-                <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>{course.icon}</div>
-                <h4 style={{ margin: 0, fontSize: '0.92rem', fontWeight: '900', color: 'var(--text)' }}>{course.title}</h4>
-                <p style={{ margin: '4px 0 0 0', fontSize: '0.75rem', color: 'var(--muted)' }}>By {course.instr}</p>
-                <p style={{ margin: '8px 0 0 0', fontSize: '0.78rem', color: 'var(--text)', lineHeight: '1.4' }}>{course.desc}</p>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', borderTop: '1px dashed var(--border)', paddingTop: '10px' }}>
-                <span style={{ fontSize: '0.7rem', color: 'var(--muted)', fontWeight: 'bold' }}>{course.rating}</span>
-                <Link to="/courses" className="btn primary" style={{ padding: '4px 10px', fontSize: '0.72rem', borderRadius: '4px' }}>Enroll</Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
     </div>
   );
 }
