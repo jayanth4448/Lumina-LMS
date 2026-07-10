@@ -47,3 +47,6 @@ Thumbs.db
 /frontend/android/.gradle/
 /frontend/android/local.properties
 /frontend/android/captmp/
+
+# Scratch directory
+scratch/

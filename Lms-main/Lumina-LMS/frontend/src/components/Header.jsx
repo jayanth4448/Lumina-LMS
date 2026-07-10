@@ -14,6 +14,37 @@ export default function Header() {
   const doLogout = () => { logout(); nav('/', { replace: true }); };
   const notify = () => { alert('No new notifications'); };
 
+  // PWA Install Prompt State & Effect Hook
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallBtn, setShowInstallBtn] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBtn(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setShowInstallBtn(false);
+    }
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to install prompt: ${outcome}`);
+    setDeferredPrompt(null);
+    setShowInstallBtn(false);
+  };
+
   const [open, setOpen] = useState(false); // profile menu
   const menuRef = useRef(null);
   const [navOpen, setNavOpen] = useState(false); // hamburger menu
@@ -143,6 +174,29 @@ export default function Header() {
           </div>
         ) : (
           <div className="right-actions">
+            {showInstallBtn && (
+              <button 
+                onClick={handleInstallClick} 
+                className="btn primary" 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  borderRadius: '6px',
+                  padding: '6px 12px',
+                  fontSize: '0.85rem',
+                  fontWeight: '700',
+                  marginRight: '12px',
+                  background: 'linear-gradient(135deg, #4F46E5 0%, #6366F1 100%)',
+                  boxShadow: '0 0 10px rgba(79, 70, 229, 0.4)',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: 'white'
+                }}
+              >
+                📥 Install App
+              </button>
+            )}
             <Link to="/" title="Home" className="right-link">Home</Link>
             <div ref={notifRef} className="notif-menu">
             <button title="Notifications" onClick={toggleNotif} aria-label="Notifications" className="bell">
